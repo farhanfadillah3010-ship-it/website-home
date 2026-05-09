@@ -1,112 +1,39 @@
 <!DOCTYPE html>
-<html lang="id">
+<html>
 <head>
-    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Our Pink Memories</title>
+    <title>Our Memories</title>
     <style>
-        body {
-            margin: 0; padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #ffafbd 0%, #ffc3a0 100%);
-            height: 100vh; display: flex; align-items: center; justify-content: center;
-            overflow: hidden;
-        }
-
-        /* Tombol Pemicu Utama */
-        #play-button-container {
-            text-align: center;
-            background: white;
-            padding: 40px;
-            border-radius: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            width: 80%;
-            max-width: 350px;
-            z-index: 100;
-        }
-
-        .btn-play {
-            background: #d81b60;
-            color: white;
-            border: none;
-            padding: 15px 30px;
-            border-radius: 50px;
-            font-size: 18px;
-            font-weight: bold;
-            cursor: pointer;
-            box-shadow: 0 4px 15px rgba(216, 27, 96, 0.3);
-            transition: transform 0.2s;
-        }
-
-        .btn-play:active {
-            transform: scale(0.95);
-        }
-
-        /* Konten yang muncul setelah diklik */
-        #content {
-            display: none;
-            text-align: center;
-            color: white;
-        }
-
-        .heart {
-            color: #d81b60;
-            font-size: 50px;
-            animation: beat 1s infinite;
-        }
-
-        @keyframes beat {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.2); }
-            100% { transform: scale(1); }
-        }
+        body { background: #ffafbd; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; font-family: sans-serif; }
+        .card { background: white; padding: 40px; border-radius: 20px; text-align: center; box-shadow: 0 10px 20px rgba(0,0,0,0.1); width: 80%; }
+        button { background: #d81b60; color: white; border: none; padding: 20px; border-radius: 10px; font-size: 18px; width: 100%; cursor: pointer; }
     </style>
 </head>
 <body>
 
-    <!-- Tampilan Sebelum Klik -->
-    <div id="play-button-container">
-        <div style="font-size: 40px; margin-bottom: 10px;">🌸</div>
-        <h2 style="color: #d81b60; margin-bottom: 20px;">Halo Sayang</h2>
-        <p style="color: #666; margin-bottom: 30px;">Klik tombol di bawah untuk memutar lagu kenangan kita.</p>
-        <button class="btn-play" onclick="startExperience()">Putar Lagu ✨</button>
+    <div id="box" class="card">
+        <h2>Halo Sayang 🌸</h2>
+        <p>Klik tombol di bawah untuk musiknya</p>
+        <!-- TOMBOL UTAMA -->
+        <button onclick="putar()">KLIK UNTUK PUTAR LAGU ✨</button>
     </div>
 
-    <!-- Tampilan Setelah Klik -->
-    <div id="content">
-        <div class="heart">❤️</div>
-        <h1 style="text-shadow: 2px 2px 4px rgba(0,0,0,0.2);">Aku Milikmu</h1>
-        <p id="counter" style="font-size: 20px; font-weight: bold;"></p>
-        
-        <!-- Elemen Musik Tersembunyi (YouTube) -->
-        <div id="music-box"></div>
+    <div id="konten" style="display:none; text-align:center; color:white;">
+        <h1>❤️ Aku Milikmu ❤️</h1>
+        <div id="musik"></div>
     </div>
 
     <script>
-        function startExperience() {
-            // 1. Sembunyikan tombol, tampilkan konten
-            document.getElementById('play-button-container').style.display = 'none';
-            document.getElementById('content').style.display = 'block';
-
-            // 2. Masukkan lagu (YouTube Embed) agar otomatis putar
-            // ID gT9g1cW1H-4 adalah lagu "Aku Milikmu"
-            const musicBox = document.getElementById('music-box');
-            musicBox.innerHTML = `
+        function putar() {
+            // Sembunyikan tombol, munculkan konten
+            document.getElementById('box').style.display = 'none';
+            document.getElementById('konten').style.display = 'block';
+            
+            // Masukkan lagu YouTube Dewa 19 - Aku Milikmu
+            document.getElementById('musik').innerHTML = `
                 <iframe width="0" height="0" 
-                    src="https://www.youtube.com/embed/gT9g1cW1H-4?autoplay=1&loop=1&playlist=gT9g1cW1H-4" 
-                    frameborder="0" allow="autoplay">
-                </iframe>`;
-
-            // 3. Jalankan Hitungan Hari
-            startCounter();
-        }
-
-        function startCounter() {
-            const startDate = new Date("2024-01-01"); // Sesuaikan tanggal jadianmu di sini
-            const now = new Date();
-            const diff = now - startDate;
-            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-            document.getElementById('counter').innerHTML = days + " Hari Bersama";
+                src="https://www.youtube.com/embed/gT9g1cW1H-4?autoplay=1&loop=1&playlist=gT9g1cW1H-4" 
+                frameborder="0" allow="autoplay"></iframe>`;
         }
     </script>
 </body>
