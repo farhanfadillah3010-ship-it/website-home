@@ -124,14 +124,13 @@
 </head>
 <body onclick="spawnHeart(event)">
 
-    <!-- PLAYER MUSIK (DIUBAH UNTUK OTOMATIS) -->
+    <!-- PLAYER MUSIK -->
     <div class="music-player">
         <button class="music-btn" id="play-pause" onclick="toggleMusic()">▶</button>
         <div style="display: flex; flex-direction: column;">
-            <span style="font-size: 12px; font-weight: bold;" id="song-title">Menunggu Klik... 🎵</span>
-            <span style="font-size: 10px; color: #d81b60;">Klik layar untuk musik</span>
+            <span style="font-size: 12px; font-weight: bold;" id="song-title">Klik Layar 🎵</span>
+            <span style="font-size: 10px; color: #d81b60;">Aku Milikmu</span>
         </div>
-        <!-- Sumber lagu langsung ke file akumilikmu.mp3 -->
         <audio id="myAudio" src="akumilikmu.mp3" loop></audio>
     </div>
 
@@ -143,6 +142,7 @@
     </nav>
 
     <div class="container">
+        <!-- HALAMAN HOME -->
         <div id="home" class="page active-page">
             <h2>Welcome Home 🌸</h2>
             <div class="counter-container">
@@ -151,12 +151,14 @@
             </div>
         </div>
 
+        <!-- HALAMAN MEMORIES -->
         <div id="memories" class="page">
             <h2>🌸 Our Memories 🌸</h2>
             <div class="memory-item"><img src="https://lh3.googleusercontent.com/d/1g2pgBH5rWrQCvvwa_mC0xtXSaLYLHQ5G"></div>
             <div class="memory-item"><img src="https://lh3.googleusercontent.com/d/1QstwHNuQwgq2dY0VFT2m6uKq0ijCRJ1k"></div>
         </div>
 
+        <!-- HALAMAN GALLERY -->
         <div id="gallery" class="page">
             <h2>✨ Photo Gallery ✨</h2>
             <div class="gallery-grid">
@@ -166,6 +168,7 @@
             </div>
         </div>
 
+        <!-- HALAMAN MESSAGE -->
         <div id="message" class="page">
             <h2>💌 Message Board 💌</h2>
             <div style="background:white; padding:20px; border-radius:20px; margin-bottom:20px;">
@@ -182,15 +185,14 @@
         const audio = document.getElementById("myAudio");
         const btn = document.getElementById("play-pause");
 
-        // FUNGSI PLAY OTOMATIS
-        function startMusic() {
+        // FUNGSI PLAY OTOMATIS SAAT KLIK PERTAMA
+        function handleFirstInteraction() {
             audio.play().then(() => {
                 btn.innerHTML = "⏸";
                 document.getElementById('song-title').innerText = "Aku Milikmu 🎵";
-                // Hapus listener agar tidak ke-trigger berkali-kali
-                document.removeEventListener('click', startMusic);
-                document.removeEventListener('touchstart', startMusic);
-            }).catch(e => console.log("Menunggu interaksi user..."));
+                document.removeEventListener('click', handleFirstInteraction);
+                document.removeEventListener('touchstart', handleFirstInteraction);
+            }).catch(error => console.log("Menunggu interaksi..."));
         }
 
         function toggleMusic() {
@@ -217,9 +219,16 @@
             setTimeout(() => heart.remove(), 1000);
         }
 
+        // PENGHITUNG WAKTU (MULAI 5 FEBRUARI 2026)
         function updateCounter() {
-            const startDate = new Date("2024-01-01"); 
+            const startDate = new Date("2026-02-05T00:00:00"); 
             const diff = new Date() - startDate;
+            
+            if (diff < 0) {
+                document.getElementById("days-counter").innerHTML = "Menuju 5 Feb 2026... ❤️";
+                return;
+            }
+
             const d = Math.floor(diff / (1000 * 60 * 60 * 24));
             const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
             const m = Math.floor((diff / 1000 / 60) % 60);
@@ -274,9 +283,8 @@
         window.onload = function() {
             loadMessages();
             updateCounter();
-            // Listener untuk autoplay saat pertama kali layar disentuh
-            document.addEventListener('click', startMusic);
-            document.addEventListener('touchstart', startMusic);
+            document.addEventListener('click', handleFirstInteraction);
+            document.addEventListener('touchstart', handleFirstInteraction);
         };
     </script>
 </body>
