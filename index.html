@@ -1,39 +1,82 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Test Tombol</title>
-</head>
-<body style="background: pink; text-align: center; padding-top: 50px;">
-
-    <h2>Klik untuk Putar Lagu 🌸</h2>
-    <button id="btnMulai" style="padding: 20px; font-size: 20px; border-radius: 10px;">
-        Mulai Sekarang ✨
-    </button>
-
-    <div id="player"></div>
-
-    <script>
-        var tag = document.createElement('script');
-        tag.src = "https://www.youtube.com/iframe_api";
-        document.body.appendChild(tag);
-
-        var player;
-        function onYouTubeIframeAPIReady() {
-            player = new YT.Player('player', {
-                height: '0', width: '0',
-                videoId: 'gT9g1cW1H-4',
-                playerVars: { 'autoplay': 0, 'loop': 1, 'playlist': 'gT9g1cW1H-4' }
-            });
+    <title>Our Pink Memories</title>
+    <style>
+        body {
+            margin: 0; padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #ffafbd 0%, #ffc3a0 100%);
+            height: 100vh; display: flex; align-items: center; justify-content: center;
         }
 
-        document.getElementById('btnMulai').onclick = function() {
-            if(player) {
-                player.playVideo();
-                alert("Lagu Harusnya Sudah Mulai!");
-                this.style.display = 'none';
-            }
-        };
+        #welcome-box {
+            background: white; padding: 35px; border-radius: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1); text-align: center;
+            width: 85%; max-width: 350px; border: 2px solid #ffafbd;
+        }
+
+        .btn-mulai {
+            background: #d81b60; color: white; border: none;
+            padding: 15px 30px; border-radius: 50px; font-weight: bold;
+            font-size: 16px; cursor: pointer; margin-top: 20px;
+            width: 100%; transition: 0.3s;
+        }
+
+        #main-content { display: none; text-align: center; width: 100%; }
+
+        .counter-box {
+            background: white; padding: 20px; border-radius: 20px;
+            margin: 20px; border: 2px dashed #ffafbd;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- BOX MULAI -->
+    <div id="welcome-box">
+        <h2 style="color: #d81b60; margin: 0;">Halo Sayang 🌸</h2>
+        <p style="color: #666; font-size: 14px; margin-top: 10px;">
+            Klik tombol di bawah untuk memutar lagu dan melihat kenangan kita.
+        </p>
+        <button class="btn-mulai" onclick="jalankanWeb()">Mulai Sekarang ✨</button>
+    </div>
+
+    <!-- KONTEN UTAMA -->
+    <div id="main-content">
+        <h2 style="color: white; text-shadow: 2px 2px 5px rgba(0,0,0,0.1);">Welcome Home</h2>
+        <div class="counter-box">
+            <p style="margin: 0; color: #888; font-size: 13px;">Waktu Bersama:</p>
+            <div id="days-counter" style="font-size: 24px; font-weight: bold; color: #d81b60;">...</div>
+        </div>
+        
+        <!-- Pemutar YouTube (Langsung Muncul Saat Klik) -->
+        <div id="player-area"></div>
+    </div>
+
+    <script>
+        function jalankanWeb() {
+            // 1. Sembunyikan box awal & tampilkan konten
+            document.getElementById('welcome-box').style.display = 'none';
+            document.getElementById('main-content').style.display = 'block';
+            
+            // 2. Load Video YouTube "Aku Milikmu" (Dewa 19) secara dinamis
+            // gT9g1cW1H-4 adalah ID lagu Aku Milikmu
+            const area = document.getElementById('player-area');
+            area.innerHTML = `<iframe width="0" height="0" src="https://www.youtube.com/embed/gT9g1cW1H-4?autoplay=1&loop=1&playlist=gT9g1cW1H-4" frameborder="0" allow="autoplay"></iframe>`;
+            
+            // 3. Mulai Hitungan Hari
+            updateCounter();
+        }
+
+        function updateCounter() {
+            const startDate = new Date("2024-01-01"); // Sesuaikan tanggal jadianmu di sini
+            const diff = new Date() - startDate;
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            document.getElementById('days-counter').innerHTML = days + " Hari Bersama";
+        }
     </script>
 </body>
 </html>
