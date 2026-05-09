@@ -1,39 +1,61 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Our Memories</title>
+    <title>Our Pink Memories</title>
     <style>
-        body { background: #ffafbd; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; font-family: sans-serif; }
-        .card { background: white; padding: 40px; border-radius: 20px; text-align: center; box-shadow: 0 10px 20px rgba(0,0,0,0.1); width: 80%; }
-        button { background: #d81b60; color: white; border: none; padding: 20px; border-radius: 10px; font-size: 18px; width: 100%; cursor: pointer; }
+        body {
+            margin: 0; padding: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #ffafbd 0%, #ffc3a0 100%);
+            height: 100vh; display: flex; align-items: center; justify-content: center;
+            overflow: hidden; color: white;
+        }
+
+        /* Overlay transparan di seluruh layar */
+        #overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.1); z-index: 9999;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            cursor: pointer;
+        }
+
+        .heart-icon { font-size: 80px; animation: pulse 1s infinite; }
+        @keyframes pulse { 0% {transform: scale(1);} 50% {transform: scale(1.1);} 100% {transform: scale(1);} }
+
+        #main-content { display: none; text-align: center; }
     </style>
 </head>
-<body>
+<body onclick="nyalakanMusik()">
 
-    <div id="box" class="card">
-        <h2>Halo Sayang 🌸</h2>
-        <p>Klik tombol di bawah untuk musiknya</p>
-        <!-- TOMBOL UTAMA -->
-        <button onclick="putar()">KLIK UNTUK PUTAR LAGU ✨</button>
+    <!-- Klik di mana saja pada area ini untuk memicu suara -->
+    <div id="overlay">
+        <div class="heart-icon">❤️</div>
+        <p style="font-weight: bold; margin-top: 20px;">Ketuk layar untuk memulai ✨</p>
     </div>
 
-    <div id="konten" style="display:none; text-align:center; color:white;">
-        <h1>❤️ Aku Milikmu ❤️</h1>
-        <div id="musik"></div>
+    <div id="main-content">
+        <h1>Aku Milikmu - Dewa 19</h1>
+        <p>Kenangan kita sedang berputar...</p>
+        <div id="youtube-player"></div>
     </div>
 
     <script>
-        function putar() {
-            // Sembunyikan tombol, munculkan konten
-            document.getElementById('box').style.display = 'none';
-            document.getElementById('konten').style.display = 'block';
-            
-            // Masukkan lagu YouTube Dewa 19 - Aku Milikmu
-            document.getElementById('musik').innerHTML = `
-                <iframe width="0" height="0" 
-                src="https://www.youtube.com/embed/gT9g1cW1H-4?autoplay=1&loop=1&playlist=gT9g1cW1H-4" 
-                frameborder="0" allow="autoplay"></iframe>`;
+        var musikDimulai = false;
+
+        function nyalakanMusik() {
+            if (!musikDimulai) {
+                // Sembunyikan overlay & tampilkan konten
+                document.getElementById('overlay').style.display = 'none';
+                document.getElementById('main-content').style.display = 'block';
+
+                // Masukkan iframe YouTube (gT9g1cW1H-4 adalah ID lagu Aku Milikmu)
+                var area = document.getElementById('youtube-player');
+                area.innerHTML = `<iframe width="0" height="0" src="https://www.youtube.com/embed/gT9g1cW1H-4?autoplay=1&loop=1&playlist=gT9g1cW1H-4" frameborder="0" allow="autoplay"></iframe>`;
+                
+                musikDimulai = true;
+            }
         }
     </script>
 </body>
