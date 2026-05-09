@@ -10,72 +10,103 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #ffafbd 0%, #ffc3a0 100%);
             height: 100vh; display: flex; align-items: center; justify-content: center;
+            overflow: hidden;
         }
 
-        #welcome-box {
-            background: white; padding: 35px; border-radius: 25px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1); text-align: center;
-            width: 85%; max-width: 350px; border: 2px solid #ffafbd;
+        /* Tombol Pemicu Utama */
+        #play-button-container {
+            text-align: center;
+            background: white;
+            padding: 40px;
+            border-radius: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            width: 80%;
+            max-width: 350px;
+            z-index: 100;
         }
 
-        .btn-mulai {
-            background: #d81b60; color: white; border: none;
-            padding: 15px 30px; border-radius: 50px; font-weight: bold;
-            font-size: 16px; cursor: pointer; margin-top: 20px;
-            width: 100%; transition: 0.3s;
+        .btn-play {
+            background: #d81b60;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(216, 27, 96, 0.3);
+            transition: transform 0.2s;
         }
 
-        #main-content { display: none; text-align: center; width: 100%; }
+        .btn-play:active {
+            transform: scale(0.95);
+        }
 
-        .counter-box {
-            background: white; padding: 20px; border-radius: 20px;
-            margin: 20px; border: 2px dashed #ffafbd;
+        /* Konten yang muncul setelah diklik */
+        #content {
+            display: none;
+            text-align: center;
+            color: white;
+        }
+
+        .heart {
+            color: #d81b60;
+            font-size: 50px;
+            animation: beat 1s infinite;
+        }
+
+        @keyframes beat {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
         }
     </style>
 </head>
 <body>
 
-    <!-- BOX MULAI -->
-    <div id="welcome-box">
-        <h2 style="color: #d81b60; margin: 0;">Halo Sayang 🌸</h2>
-        <p style="color: #666; font-size: 14px; margin-top: 10px;">
-            Klik tombol di bawah untuk memutar lagu dan melihat kenangan kita.
-        </p>
-        <button class="btn-mulai" onclick="jalankanWeb()">Mulai Sekarang ✨</button>
+    <!-- Tampilan Sebelum Klik -->
+    <div id="play-button-container">
+        <div style="font-size: 40px; margin-bottom: 10px;">🌸</div>
+        <h2 style="color: #d81b60; margin-bottom: 20px;">Halo Sayang</h2>
+        <p style="color: #666; margin-bottom: 30px;">Klik tombol di bawah untuk memutar lagu kenangan kita.</p>
+        <button class="btn-play" onclick="startExperience()">Putar Lagu ✨</button>
     </div>
 
-    <!-- KONTEN UTAMA -->
-    <div id="main-content">
-        <h2 style="color: white; text-shadow: 2px 2px 5px rgba(0,0,0,0.1);">Welcome Home</h2>
-        <div class="counter-box">
-            <p style="margin: 0; color: #888; font-size: 13px;">Waktu Bersama:</p>
-            <div id="days-counter" style="font-size: 24px; font-weight: bold; color: #d81b60;">...</div>
-        </div>
+    <!-- Tampilan Setelah Klik -->
+    <div id="content">
+        <div class="heart">❤️</div>
+        <h1 style="text-shadow: 2px 2px 4px rgba(0,0,0,0.2);">Aku Milikmu</h1>
+        <p id="counter" style="font-size: 20px; font-weight: bold;"></p>
         
-        <!-- Pemutar YouTube (Langsung Muncul Saat Klik) -->
-        <div id="player-area"></div>
+        <!-- Elemen Musik Tersembunyi (YouTube) -->
+        <div id="music-box"></div>
     </div>
 
     <script>
-        function jalankanWeb() {
-            // 1. Sembunyikan box awal & tampilkan konten
-            document.getElementById('welcome-box').style.display = 'none';
-            document.getElementById('main-content').style.display = 'block';
-            
-            // 2. Load Video YouTube "Aku Milikmu" (Dewa 19) secara dinamis
-            // gT9g1cW1H-4 adalah ID lagu Aku Milikmu
-            const area = document.getElementById('player-area');
-            area.innerHTML = `<iframe width="0" height="0" src="https://www.youtube.com/embed/gT9g1cW1H-4?autoplay=1&loop=1&playlist=gT9g1cW1H-4" frameborder="0" allow="autoplay"></iframe>`;
-            
-            // 3. Mulai Hitungan Hari
-            updateCounter();
+        function startExperience() {
+            // 1. Sembunyikan tombol, tampilkan konten
+            document.getElementById('play-button-container').style.display = 'none';
+            document.getElementById('content').style.display = 'block';
+
+            // 2. Masukkan lagu (YouTube Embed) agar otomatis putar
+            // ID gT9g1cW1H-4 adalah lagu "Aku Milikmu"
+            const musicBox = document.getElementById('music-box');
+            musicBox.innerHTML = `
+                <iframe width="0" height="0" 
+                    src="https://www.youtube.com/embed/gT9g1cW1H-4?autoplay=1&loop=1&playlist=gT9g1cW1H-4" 
+                    frameborder="0" allow="autoplay">
+                </iframe>`;
+
+            // 3. Jalankan Hitungan Hari
+            startCounter();
         }
 
-        function updateCounter() {
+        function startCounter() {
             const startDate = new Date("2024-01-01"); // Sesuaikan tanggal jadianmu di sini
-            const diff = new Date() - startDate;
+            const now = new Date();
+            const diff = now - startDate;
             const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-            document.getElementById('days-counter').innerHTML = days + " Hari Bersama";
+            document.getElementById('counter').innerHTML = days + " Hari Bersama";
         }
     </script>
 </body>
